@@ -25,8 +25,9 @@
    * - :doc:`C# </drivers/csharp>`
      - `Releases <https://github.com/mongodb/mongo-csharp-driver/releases>`__
      - `Source <https://github.com/mongodb/mongo-csharp-driver>`__
-     - `API <http://mongodb.github.io/mongo-csharp-driver/>`__
+     - `API <http://api.mongodb.com/csharp/current/>`__
      - `JIRA <https://jira.mongodb.org/browse/CSHARP>`__
+     - `Course <https://university.mongodb.com/courses/M101N/about>`__
 
    * - :doc:`Go </drivers/go>`
      - `Releases <https://github.com/mongodb/mongo-go-driver/releases>`__
@@ -38,16 +39,16 @@
    * - :doc:`Java </drivers/java>`
      - `Releases <https://github.com/mongodb/mongo-java-driver/releases>`__
      - `Source <https://github.com/mongodb/mongo-java-driver>`__
-     - `API <https://mongodb.github.io/mongo-java-driver/>`__
+     - `API <http://api.mongodb.com/java/current>`__
      - `JIRA <https://jira.mongodb.org/browse/JAVA>`__
-     - `Course <https://university.mongodb.com/courses/M220J/about>`__
+     - `Course <https://university.mongodb.com/courses/M101J/about>`__
 
    * - :doc:`Node.js </drivers/node>`
      - `Releases <https://github.com/mongodb/node-mongodb-native/releases>`__
      - `Source <https://github.com/mongodb/node-mongodb-native>`__
      - `API <https://mongodb.github.io/node-mongodb-native/>`__
      - `JIRA <https://jira.mongodb.org/browse/NODE>`__
-     - `Course <https://university.mongodb.com/courses/M220JS/about>`__
+     - `Course <https://university.mongodb.com/courses/M101JS/about>`__
 
    * - :doc:`Perl </drivers/perl>`
      - `Releases <https://metacpan.org/release/MongoDB>`__
@@ -68,7 +69,7 @@
      - `Source <https://github.com/mongodb/mongo-python-driver>`__
      - `API <http://api.mongodb.com/python/current>`__
      - `JIRA <https://jira.mongodb.org/browse/PYTHON>`__
-     - `Course <https://university.mongodb.com/courses/M220P/about>`__
+     - `Course <https://university.mongodb.com/courses/M101P/about>`__
 
    * - :ref:`Motor (Python async)<python-async-driver>`
      - `Releases <https://pypi.python.org/pypi/motor/>`__
