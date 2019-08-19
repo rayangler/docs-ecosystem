@@ -40,9 +40,26 @@ Procedure
 Requirements
 ~~~~~~~~~~~~
 
-- Point to setup and install directions
-- Nullam imperdiet lorem vitae vulputate lacinia.
-- Donec eget velit tincidunt, gravida diam ac, efficitur lacus.
+
+MongoDB Server Enterprise (version 4.2 or later)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Install MongoDB Enterprise for your operating system.
+https://docs.mongodb.com/manual/installation/#mongodb-enterprise-edition-installation-tutorials
+
+
+
+Run mongocryptd
+Attempt to connect to mongocryptd to ensure that it is running
+$ mongo mongodb://%2Ftmp%2Fmongocryptd.sock/
+
+
+
+
+- MongoDB driver compatible with CSFLE (table?) https://docs.mongodb.com/manual/core/security-client-side-encryption/#driver-compatibility-table
+- mongocryptd installed and running (how to word this?)
+- (are there any other requirements? libraries?)
+- TODO
 
 A. Create a Local Master Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,6 +70,60 @@ auctor tortor orci et mi. Maecenas tempor, lacus vehicula molestie
 pulvinar, ante eros faucibus odio, sed consequat quam tellus vel arcu.
 Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
 cubilia Curae; Nunc non interdum purus, ultricies laoreet tortor.
+
+A1. Create Data Encryption Keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Next, generate the data encryption keys that will be used to encrypt/decrypt the sensitive fields. 
+
+As described in the Deterministic vs Random section, there are two encryption algorithms that you can specify for the data keys:
+
+- Deterministic: ``AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic``
+- Random: ``AEAD_AES_256_CBC_HMAC_SHA_512-Random``
+
+For this scenario, we will generate one of each type to demonstrate the differences between them.
+
+For this step, since the driver manages the entire lifecycle of generation, encryption, and insertion of the data keys into a user-specified collection, the connection string and master key need to be provided.
+
+
+In the following code snippet, we create one of each type in database "data" and collection called "datakeys" 
+In order to encrypt or decrypt the fields, the client must have read/write access to this database and collection.
+
+1) Read in the local master key and specify the settings for a local master key
+
+        Map<String, Map<String, Object>> kmsProviders = new HashMap<String, Map<String, Object>>() {{
+           put("local", new HashMap<String, Object>() {{
+               put("key", localMasterKey);
+           }});
+        }};
+
+2) specify the database and collection name
+
+        String keyVaultNamespace = "mykeys.datakeys";
+
+3) specify key vault and connection settings for a ClientEncryption object 
+        ClientEncryptionSettings clientEncryptionSettings = ClientEncryptionSettings.builder()
+                .keyVaultMongoClientSettings(MongoClientSettings.builder()
+                        .applyConnectionString(new ConnectionString("mongodb://localhost"))
+                        .build())
+                .keyVaultNamespace(keyVaultNamespace)
+                .kmsProviders(kmsProviders)
+                .build();
+
+        ClientEncryption clientEncryption = ClientEncryptions.create(clientEncryptionSettings);
+        BsonBinary dataKeyId = clientEncryption.createDataKey("local", new DataKeyOptions());
+
+4) Convert encrypted data key to string
+        final String base64DataKeyId = Base64.getEncoder().encodeToString(dataKeyId.getData());
+
+
+
+
+
+
+
+
+
 
 B. Define a JSON Schema
 ~~~~~~~~~~~~~~~~~~~~~~~
